@@ -1,0 +1,169 @@
+# Documentor Agent
+
+An AI agent that analyzes codebases and generates comprehensive documentation with layered understanding of project components and their relationships.
+
+## 🚀 Features
+
+- **Intelligent Code Analysis**: Automatically identifies core components and abstractions in any codebase
+- **Relationship Mapping**: Understands and documents how different components interact
+- **Beginner-Friendly Documentation**: Generates tutorial-style documentation that's easy to understand
+- **Multi-Language Support**: Works with any programming language
+- **Smart File Filtering**: Respects `.gitignore` and allows custom include/exclude patterns
+- **Caching**: Caches LLM responses for faster subsequent runs
+- **Mermaid Diagrams**: Generates visual relationship diagrams
+
+## 📋 Requirements
+
+- Python 3.10 or higher
+- Google API Key for Gemini 2.5 Flash Preview
+
+## 🛠️ Installation
+
+1. **Clone the repository**:
+   ```bash
+   git clone <repository-url>
+   cd documentor-agent
+   ```
+
+2. **Install dependencies**:
+   ```bash
+   uv sync
+   ```
+
+3. **Set up environment variables**:
+   Create a `.env` file in the project root:
+   ```bash
+   GOOGLE_API_KEY=your_google_api_key_here
+   ```
+
+## 🎯 Usage
+
+### Command Line Interface
+
+The easiest way to use the documentor agent is through the CLI:
+
+```bash
+# Basic usage
+python cli.py /path/to/your/project
+
+# With custom options
+python cli.py /path/to/your/project \
+  --project-name "My Awesome Project" \
+  --max-components 7 \
+  --include-patterns "*.py" "*.js" \
+  --exclude-patterns "*.pyc" "node_modules/*" \
+  --max-file-size 1000000
+```
+
+### Python API
+
+You can also use the agent programmatically:
+
+```python
+from dotenv import load_dotenv
+from file_extractor import file_extractor
+from educator_agent import educator_agent
+
+# Load environment variables
+load_dotenv()
+
+# Extract files from your project
+files = file_extractor(
+    directory="/path/to/your/project",
+    include_patterns=["*.py", "*.js"],
+    exclude_patterns=["*.pyc", "node_modules/*"]
+)
+
+# Run the educator agent
+output_state = educator_agent.invoke({
+    "files": files,
+    "project_name": "My Project",
+    "max_components": 5
+})
+
+print(f"Documentation generated in: {output_state['output_path']}")
+```
+
+## 📁 Project Structure
+
+```
+documentor-agent/
+├── models.py              # Pydantic models for data structures
+├── state.py               # State management for LangGraph
+├── file_extractor.py      # File extraction and filtering logic
+├── llm_utils.py           # LLM calling and caching utilities
+├── agent_nodes.py         # Individual agent node functions
+├── educator_agent.py      # Main agent workflow builder
+├── cli.py                 # Command line interface
+├── main.py                # Simple example usage
+├── pyproject.toml         # Project configuration and dependencies
+└── README.md              # This file
+```
+
+## 🔧 Configuration
+
+### CLI Options
+
+- `directory`: Path to the project directory to analyze
+- `--project-name`: Custom name for the project (defaults to directory name)
+- `--max-components`: Maximum number of components to identify (default: 5)
+- `--include-patterns`: File patterns to include (e.g., `*.py` `*.js`)
+- `--exclude-patterns`: File patterns to exclude (e.g., `*.pyc` `node_modules/*`)
+- `--max-file-size`: Maximum file size in bytes to process
+- `--no-cache`: Disable caching of LLM responses
+
+### Environment Variables
+
+- `GOOGLE_API_KEY`: Your Google API key for Gemini 2.5 Flash Preview
+
+## 📖 Output
+
+The agent generates documentation in the `docs/<project_name>/` directory:
+
+- `index.md`: Overview page with project summary and component relationships
+- `01_component_name.md`: Individual chapter files for each component
+- Mermaid diagrams showing component relationships
+
+## 🤖 How It Works
+
+1. **File Extraction**: Scans the project directory and extracts relevant files
+2. **Component Analysis**: Uses AI to identify core components and their purposes
+3. **Relationship Mapping**: Analyzes how components interact with each other
+4. **Content Ordering**: Determines the best order to explain concepts
+5. **Documentation Generation**: Creates beginner-friendly tutorial chapters
+6. **Output Assembly**: Generates the final documentation with navigation
+
+## 🧪 Development
+
+### Running Tests
+
+```bash
+# Install development dependencies
+uv sync --dev
+
+# Run tests (when implemented)
+python -m pytest
+```
+
+### Adding New Features
+
+1. The agent nodes are in `agent_nodes.py`
+2. Models are defined in `models.py`
+3. State management is in `state.py`
+4. The workflow is built in `educator_agent.py`
+
+## 📝 License
+
+This project is licensed under the MIT License.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📞 Support
+
+If you encounter any issues or have questions, please open an issue on GitHub.
+
+---
+
+**Generated by Kritagya Khandelwal**
